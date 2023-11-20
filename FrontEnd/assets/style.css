@@ -197,6 +197,10 @@ li:hover {
 	color: #B1663C;
 }
 
+li:nth-child(1) {
+	font-weight: 600;
+}
+
 /* index.html */
 
 #introduction {
@@ -312,10 +316,6 @@ input[type="submit"] {
 	text-align: center;
 	border-radius: 60px;
 }
-
-/* login.html */
-
-
 
 /* footer */
 
