@@ -45,7 +45,24 @@
 		<section id="portfolio">
 			<div class="entete">
 				<h2>Mes Projets</h2>
-				<button class="admin"><i class="fa-solid fa-pen-to-square"></i>Modifier</button>
+				<button class="admin modal-btn modal-trigger"><i class="fa-solid fa-pen-to-square"></i>Modifier</button>
+				<div class="modal-container">
+
+					<div class="overlay modal-trigger"></div>
+
+					<div class="modal" role="dialog" aria-labelledby="modalTitle">
+						<button class="close-modal modal-trigger"><i class="fa-solid fa-xmark"></i></button>
+
+						<div class="contenumodal">
+							<h3 id="modalTitle">Galerie photo</h3>
+							<div class="galleryModal">
+
+							</div>
+							<hr>
+							<button type="submit">Ajouter une photo</button>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="filter">
 				<button type="submit" class="all">Tous</button>
@@ -79,7 +96,10 @@
 			</ul>
 		</nav>
 	</footer>
+
+
 	<script src="./js/index.js"></script>
+	<script type="module" src="./js/modal.js"></script>
 </body>
 
 </html>

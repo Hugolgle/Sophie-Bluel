@@ -3,6 +3,10 @@
    License: none (public domain)
 */
 
+* {
+	box-sizing: border-box;
+}
+
 html,
 body,
 div,
@@ -241,18 +245,146 @@ div.entete h2 {
 	text-align: center;
 }
 
-button.admin {
+button.modal-btn {
 	border: none;
 	position: absolute;
-	right: 550px;
+	right: 740px;
 	display: none;
 	background: none;
 	cursor: pointer;
 	font-family: 'Work Sans';
 }
 
-button.admin i {
+button.modal-btn i {
+	background: none;
+	border: none;
+	cursor: pointer;
 	margin-right: 3px;
+}
+
+div.modal-container {
+	visibility: hidden;
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	transition: visibility .4s;
+}
+
+div.modal-container.active {
+	visibility: visible;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+div.overlay {
+	opacity: 0;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: #000000d3;
+	transition: opacity 0.4s 0.2s ease-out;
+}
+
+div.modal-container.active .overlay {
+	opacity: 1;
+	transition: opacity 0.4s ease-out;
+}
+
+div.modal {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	height: 688px;
+	width: 630px;
+	opacity: 0;
+	padding: 30px 100px;
+	border-radius: 5px;
+	background: #ffffff;
+	scale: 0.2;
+	transition: opacity .4s ease-out, scale 1s cubic-bezier(.5, -1, 0, 1);
+}
+
+div.modal-container.active .modal {
+	opacity: 1;
+	scale: 1;
+	transition: opacity .4s .2s ease-out, scale 1s cubic-bezier(.5, -1, 0, 1);
+}
+
+button.close-modal {
+	padding: 8px;
+	border: none;
+	font-size: 20px;
+	position: absolute;
+	top: 7px;
+	right: 7px;
+	background: none;
+}
+
+button.close-modal i {
+	cursor: pointer;
+}
+
+div.contenumodal {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	height: 100%;
+}
+
+div.contenumodal h3 {
+	font-size: 26px;
+}
+
+div.galleryModal {
+	display: grid;
+	grid-template-columns: 20% 20% 20% 20% 20%;
+	gap: 30px 10px;
+	width: 100%;
+	justify-content: center;
+}
+
+div.galleryModal img {
+	width: 100%;
+}
+
+div.galleryModal i {
+	position: absolute;
+	z-index: 0;
+	margin: 5px -20px;
+	cursor: pointer;
+	transition: .2s;
+	font-size: 18px;
+}
+
+div.galleryModal i:hover {
+	color: #1D6154;
+}
+
+div.contenumodal hr {
+	background: #000;
+	width: 100%;
+	height: 1px;
+	margin: 0;
+	padding: 0;
+}
+
+div.contenumodal button {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	padding: 10px 30px;
+	text-align: center;
+	border-radius: 60px;
+	cursor: pointer;
+	border: none;
+	margin-bottom: 15px;
 }
 
 div.filter {
