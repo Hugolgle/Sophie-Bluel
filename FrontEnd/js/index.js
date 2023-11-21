@@ -53,3 +53,21 @@ works.then((works) => {
         genererWorks(filterHotel);
     });
 })
+
+function admin() {
+    const leToken = window.localStorage.getItem("token");
+
+    if (leToken) {
+        const btnLogOut = document.querySelector("li:nth-child(3)>a");
+        btnLogOut.innerHTML = "logout";
+        btnLogOut.addEventListener("click", () => {
+            window.localStorage.removeItem("token");
+        })
+        const btnModif = document.querySelector("button.admin");
+        btnModif.style.display = "flex";
+    } else {
+        return false;
+    }
+}
+
+admin();
