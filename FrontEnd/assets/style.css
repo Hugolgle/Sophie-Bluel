@@ -248,7 +248,7 @@ div.entete h2 {
 button.modal-btn {
 	border: none;
 	position: absolute;
-	right: 740px;
+	right: 550px;
 	display: none;
 	background: none;
 	cursor: pointer;
@@ -343,26 +343,27 @@ div.contenumodal h3 {
 
 div.galleryModal {
 	display: grid;
-	grid-template-columns: 20% 20% 20% 20% 20%;
+	grid-template-columns: 17% 17% 17% 17% 17%;
 	gap: 30px 10px;
 	width: 100%;
+	max-height: 450px;
 	justify-content: center;
+	overflow-y: hidden;
 }
 
 div.galleryModal img {
 	width: 100%;
 }
 
-div.galleryModal i {
-	position: absolute;
-	z-index: 0;
-	margin: 5px -20px;
+div.galleryModal p {
+	position: fixed;
+	margin: -95px 53px;
 	cursor: pointer;
 	transition: .2s;
 	font-size: 18px;
 }
 
-div.galleryModal i:hover {
+div.galleryModal p i:hover {
 	color: #1D6154;
 }
 
