@@ -17,40 +17,75 @@ works.then((works) => {
             figureElement.appendChild(figCaptionElement);
             gallery.appendChild(figureElement);
         }
+
+
+
+
+
     }
+
+    function btnFilter(index) {
+        const btnFilter = document.querySelectorAll("div.filter button");
+        btnFilter.forEach((btn) => {
+            if (btn.id === `btnFilter${index}`) {
+                btn.classList.add('btnFilterActive');
+            } else {
+                btn.classList.remove('btnFilterActive');
+            }
+        });
+    }
+    // if (btn.id === `btn${index}`) {
+    //     btn.style.backgroundColor = "#1D6154";
+    //     btn.style.color = "#fff";
+    // } else {
+    //     btn.style.backgroundColor = "#fff";
+    //     btn.style.color = "#1D6154";
+    // }
 
     genererWorks(works);
 
     // Filtres
-    const btnAll = document.querySelector("button.all");
+    const btnAll = document.getElementById("btnFilter0");
     btnAll.addEventListener("click", () => {
+        categorie = "0";
         const figures = document.querySelectorAll("figure.work");
         figures.forEach(figure => figure.remove());
         genererWorks(works);
+        btnFilter(categorie)
     });
 
-    const btnObj = document.querySelector("button.object");
+    const btnObj = document.getElementById("btnFilter1");
     btnObj.addEventListener("click", () => {
-        const filterObj = works.filter(work => work.categoryId == 1);
+        const categorie = "1";
+        const filterObj = works.filter(work => work.categoryId == categorie);
         const figures = document.querySelectorAll("figure.work");
+        const cat = "1"
         figures.forEach(figure => figure.remove());
         genererWorks(filterObj);
+        btnFilter(categorie)
     });
 
-    const btnAppart = document.querySelector("button.appart");
+
+
+    const btnAppart = document.getElementById("btnFilter2");
     btnAppart.addEventListener("click", () => {
-        const filterAppart = works.filter(work => work.categoryId == 2);
+        const categorie = "2";
+        const filterAppart = works.filter(work => work.categoryId == categorie);
         const figures = document.querySelectorAll("figure.work");
         figures.forEach(figure => figure.remove());
         genererWorks(filterAppart);
+        btnFilter(categorie)
     });
 
-    const btnHotel = document.querySelector("button.hotel");
+
+    const btnHotel = document.getElementById("btnFilter3");
     btnHotel.addEventListener("click", () => {
-        const filterHotel = works.filter(work => work.categoryId == 3);
+        const categorie = "3";
+        const filterHotel = works.filter(work => work.categoryId == categorie);
         const figures = document.querySelectorAll("figure.work");
         figures.forEach(figure => figure.remove());
         genererWorks(filterHotel);
+        btnFilter(categorie)
     });
 })
 

@@ -395,18 +395,23 @@ div.filter {
 	margin-bottom: 30px;
 }
 
-div.filter button {
+.btnFilter {
 	background-color: #fff;
 	border: solid 1px #1D6154;
 	color: #1D6154;
-	padding: 8px;
+	padding: 6px 15px;
 	border-radius: 60px;
 	margin: 0 5px;
 	cursor: pointer;
-	font-family: 'Work Sans';
+	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 16px;
 	height: 37px;
+}
+
+.btnFilterActive {
+	background-color: #1D6154;
+	color: #fff;
 }
 
 .gallery {
