@@ -1,8 +1,9 @@
-// Appelle API
-const works = fetch("http://localhost:5678/api/works").then(works => works.json());
-works.then((works) => {
+// _________________________________________APPEL_API_________________________________________
+const fetchWorks = fetch("http://localhost:5678/api/works").then(works => works.json());
+fetchWorks.then((works) => {
 
-    // Fonction recuperation des travaux
+    // ________________________________________GENERER_TRAVAUX________________________________________
+
     function genererWorks(works) {
         for (let i = 0; i < works.length; i++) {
             const gallery = document.querySelector("div.gallery");
@@ -17,12 +18,11 @@ works.then((works) => {
             figureElement.appendChild(figCaptionElement);
             gallery.appendChild(figureElement);
         }
-
-
-
-
-
     }
+
+    genererWorks(works);
+
+    // ____________________________________________FILTRES____________________________________________
 
     function btnFilter(index) {
         const btnFilter = document.querySelectorAll("div.filter button");
@@ -34,20 +34,10 @@ works.then((works) => {
             }
         });
     }
-    // if (btn.id === `btn${index}`) {
-    //     btn.style.backgroundColor = "#1D6154";
-    //     btn.style.color = "#fff";
-    // } else {
-    //     btn.style.backgroundColor = "#fff";
-    //     btn.style.color = "#1D6154";
-    // }
 
-    genererWorks(works);
-
-    // Filtres
     const btnAll = document.getElementById("btnFilter0");
     btnAll.addEventListener("click", () => {
-        categorie = "0";
+        const categorie = "0";
         const figures = document.querySelectorAll("figure.work");
         figures.forEach(figure => figure.remove());
         genererWorks(works);
@@ -59,13 +49,10 @@ works.then((works) => {
         const categorie = "1";
         const filterObj = works.filter(work => work.categoryId == categorie);
         const figures = document.querySelectorAll("figure.work");
-        const cat = "1"
         figures.forEach(figure => figure.remove());
         genererWorks(filterObj);
         btnFilter(categorie)
     });
-
-
 
     const btnAppart = document.getElementById("btnFilter2");
     btnAppart.addEventListener("click", () => {
@@ -76,7 +63,6 @@ works.then((works) => {
         genererWorks(filterAppart);
         btnFilter(categorie)
     });
-
 
     const btnHotel = document.getElementById("btnFilter3");
     btnHotel.addEventListener("click", () => {
@@ -89,20 +75,82 @@ works.then((works) => {
     });
 })
 
+// _______________________________________________ADMIN_______________________________________________
+
 function admin() {
     const leToken = window.localStorage.getItem("token");
-
     if (leToken) {
         const btnLogOut = document.querySelector("li:nth-child(3)>a");
         btnLogOut.innerHTML = "logout";
         btnLogOut.addEventListener("click", () => {
             window.localStorage.removeItem("token");
         })
-        const btnModif = document.querySelector("button.admin");
+        const btnModif = document.querySelector("button.modal-btn");
         btnModif.style.display = "flex";
+        const divFilter = document.querySelector("div.filter");
+        divFilter.style.display = "none";
+        const btnHeaderModif = document.querySelector("button.btnHeaderModif");
+        btnHeaderModif.style.display = "flex";
     } else {
         return false;
     }
 }
 
 admin();
+
+// _______________________________________________MODAL_______________________________________________
+
+const modalContainer = document.querySelector(".modal-container");
+const modalTriggers = document.querySelectorAll(".modal-trigger");
+modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal));
+function toggleModal() {
+    modalContainer.classList.toggle("active");
+}
+
+// _______________________________________AFFICHAGE_WORKS_MODAL_______________________________________
+
+function genererWorksModal() {
+    fetchWorks.then((works) => {
+        // foreach
+        for (let i = 0; i < works.length; i++) {
+            const gallery = document.querySelector("div.galleryModal");
+            const figureElement = document.createElement("figure");
+            figureElement.classList.add("workModal");
+            const imgElement = document.createElement("img");
+            imgElement.src = works[i].imageUrl;
+            imgElement.alt = works[i].title;
+            const p = document.createElement("p");
+            p.classList.add(`${works[i].id}`);
+            const elementSuppr = document.createElement("i");
+            elementSuppr.classList.add("fa-solid", "fa-trash-can");
+            figureElement.id = works[i].id;
+            p.appendChild(elementSuppr);
+            figureElement.appendChild(imgElement);
+            figureElement.appendChild(p);
+            gallery.appendChild(figureElement);
+
+        }
+        const btnTrash = document.querySelectorAll("p");
+        for (let i = 0; i < btnTrash.length; i++) {
+            btnTrash[i].addEventListener("click", () => {
+                const idWorks = btnTrash[i].className;
+                const token = window.localStorage.getItem("token");
+                deleteWorks(idWorks, token);
+            });
+        }
+    })
+}
+genererWorksModal();
+
+// _______________________________________SUPPRIMER_WORKS_MODAL_______________________________________
+
+function deleteWorks(idWorks, token) {
+    fetch(`http://localhost:5678/api/works/${idWorks}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+    });
+    const figureDelete = document.getElementById(`${idWorks}`);
+    figureDelete.style.display = "none";
+}
