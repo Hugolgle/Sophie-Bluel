@@ -349,6 +349,18 @@ button.close-modal i {
 	cursor: pointer;
 }
 
+button.btnArrowModal {
+	padding: 8px;
+	border: none;
+	font-size: 20px;
+	position: absolute;
+	top: 7px;
+	left: 7px;
+	background: none;
+	display: none;
+	cursor: pointer;
+}
+
 div.contenumodal {
 	display: flex;
 	flex-direction: column;
@@ -395,17 +407,127 @@ div.contenumodal hr {
 	padding: 0;
 }
 
-div.contenumodal button {
+div.contenumodal .btnModal {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
-	padding: 10px 30px;
+	padding: 10px 60px;
 	text-align: center;
 	border-radius: 60px;
 	cursor: pointer;
 	border: none;
 	margin-bottom: 15px;
+}
+
+div.contenumodal .btnValider {
+	background: #A7A7A7;
+}
+
+p.error {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+div.delete {
+	display: flex;
+}
+
+div.add {
+	display: none;
+}
+
+div.formModal {
+	width: 100%;
+	height: 60%;
+}
+
+div.formModal form {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+form div.formImg {
+	width: 100%;
+	background-color: #E8F1F6;
+	display: flex;
+	flex-direction: column;
+	height: 160px;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+form div.formImg img {
+	height: 100%;
+}
+
+input[type="file" i] {
+	display: none;
+
+}
+
+.fa-image:before {
+	font-size: 70px;
+	color: #B9C5CC;
+}
+
+div.formImg label {
+	background-color: #CBD6DC;
+	color: #306685;
+	padding: 10px 40px;
+	border-radius: 50px;
+	text-align: center;
+	cursor: pointer;
+	font-weight: 900;
+}
+
+div.formImg p {
+	color: #444444;
+	font-size: 10px;
+}
+
+form div.formTitle {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+}
+
+form div.formCate {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+}
+
+div.formModal form input {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	width: 100%;
+	margin-top: 5px;
+	font-family: "Work Sans";
+}
+
+div.formModal form select {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	width: 100%;
+	margin-top: 5px;
+	font-family: "Work Sans";
+	cursor: pointer;
+}
+
+div.formModal form select option {
+	font-family: "Work Sans";
+	height: 20px;
 }
 
 div.filter {
@@ -427,11 +549,20 @@ div.filter {
 	font-weight: 700;
 	font-size: 16px;
 	height: 37px;
+	transition: .3s;
+}
+
+.btnFilter:hover {
+	background-color: #1d61542c;
 }
 
 .btnFilterActive {
 	background-color: #1D6154;
 	color: #fff;
+}
+
+.btnFilterActive:hover {
+	background-color: #1D6154;
 }
 
 .gallery {
