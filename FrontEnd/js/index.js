@@ -203,43 +203,41 @@ btnAjoutImg.addEventListener("change", minia)
 // _______________________________________FONCTION_AJOUTER_WORKS______________________________________
 
 async function addWorks() {
-    const form = document.getElementById("idFormModal");
-    const image = document.getElementById("image").files[0];
-    console.log(image)
+    const image = document.getElementById("image").files;
     const title = document.getElementById("title").value;
-    console.log(title);
     const category = document.getElementById("category").value;
-    console.log(category);
+    const message = document.querySelector("p.msg");
 
-    // if (image.length === 0 || title === "" || category === "0") {
-    //     alert("Remplisser tous les champs !")
-    // } else {
-    try {
-        // const data = { image: image[0], title: title, category: category }
-        const data = new FormData(form)
-        data.append("image", image[0]);
-        data.append("title", title);
-        data.append("category", category);
-        console.log(data)
+    if (image.length === 0 || title === "" || category === "0") {
+        alert("Remplisser tous les champs !")
+    } else {
+        try {
+            const data = new FormData()
+            data.append("image", image[0]);
+            data.append("title", title);
+            data.append("category", category);
 
-        const addWorks = await fetch("http://localhost:5678/api/works/", {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Authorization": `Bearer ${leToken}`
-                // "Content-Type": "multipart/form-data"
-            },
-            body: data,
-        });
-        console.log(addWorks);
+            const addWorks = await fetch("http://localhost:5678/api/works/", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${leToken}`
+                },
+                body: data,
+            });
+            if (addWorks.status === 201) {
+                message.innerHTML = (`${title} a bien été ajouté !`);
+            }
+            else if (addWorks.status === 401) {
+                message.innerHTML = ("Vous n'ètes pas connecté !");
+                window.location.href = "login.html";
+            }
 
-    } catch (err) {
-        console.log(err)
+        } catch (err) {
+            message.innerHTML = ("Le serveur ne répond pas !");
+        }
     }
-    // }
 
 }
 
-
-btnValider.addEventListener("click", addWorks)
-
+btnValider.addEventListener("click", addWorks);

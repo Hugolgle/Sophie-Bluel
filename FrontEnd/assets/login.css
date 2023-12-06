@@ -236,7 +236,7 @@ div.login form input {
     box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-div.login p.error {
+div.login p.msg {
     text-align: center;
     margin-bottom: 10px;
 }
