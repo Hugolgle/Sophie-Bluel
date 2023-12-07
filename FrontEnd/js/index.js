@@ -153,6 +153,7 @@ function deleteWorks(idWorks, token) {
     });
     const figureDelete = document.getElementById(`${idWorks}`);
     figureDelete.style.display = "none";
+    alert(`Le travail d'id ${idWorks} a bien été supprimé !`);
 }
 
 // _________________________________________AJOUTER_WORKS_MODAL_______________________________________
@@ -206,7 +207,6 @@ async function addWorks() {
     const image = document.getElementById("image").files;
     const title = document.getElementById("title").value;
     const category = document.getElementById("category").value;
-    const message = document.querySelector("p.msg");
 
     if (image.length === 0 || title === "" || category === "0") {
         alert("Remplisser tous les champs !")
@@ -226,15 +226,27 @@ async function addWorks() {
                 body: data,
             });
             if (addWorks.status === 201) {
-                message.innerHTML = (`${title} a bien été ajouté !`);
+                const gallery = document.querySelector("div.gallery");
+                const figureElement = document.createElement("figure");
+                figureElement.classList.add("work");
+                const imgElement = document.createElement("img");
+                const figCaptionElement = document.createElement("figCaption");
+                imgElement.src = `./assets/images/${image[0].name}`;
+                imgElement.alt = title;
+                figCaptionElement.innerText = title;
+                figureElement.appendChild(imgElement);
+                figureElement.appendChild(figCaptionElement);
+                gallery.appendChild(figureElement);
+
+                alert(`${title} a bien été ajouté avec succès !`)
             }
             else if (addWorks.status === 401) {
-                message.innerHTML = ("Vous n'ètes pas connecté !");
+                alert("Vous n'ètes pas connecté !");
                 window.location.href = "login.html";
             }
 
         } catch (err) {
-            message.innerHTML = ("Le serveur ne répond pas !");
+            alert("Le serveur ne répond pas !");
         }
     }
 
