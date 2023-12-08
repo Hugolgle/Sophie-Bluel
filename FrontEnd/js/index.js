@@ -261,6 +261,14 @@ async function addWorks() {
 
                 genererWorksModal(img, title, id);
                 alert(`${title} a bien été ajouté avec succès !`)
+                document.getElementById("idFormModal").reset();
+                iconeImg.style.display = "flex";
+                pImage.style.display = "flex";
+                labelAjoutImg.style.display = "flex";
+
+                const imgMinia = document.querySelector("div.formImg img");
+                imgMinia.remove()
+
             }
             else if (response.status === 401) {
                 alert("Vous n'ètes pas connecté !");
