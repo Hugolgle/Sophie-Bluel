@@ -109,38 +109,49 @@ function toggleModal() {
 
 // _______________________________________AFFICHAGE_WORKS_MODAL_______________________________________
 
-function genererWorksModal() {
-    fetchWorks.then((works) => {
-        // foreach
-        for (let i = 0; i < works.length; i++) {
-            const gallery = document.querySelector("div.galleryModal");
-            const figureElement = document.createElement("figure");
-            figureElement.classList.add("workModal");
-            const imgElement = document.createElement("img");
-            imgElement.src = works[i].imageUrl;
-            imgElement.alt = works[i].title;
-            const p = document.createElement("p");
-            p.classList.add(`${works[i].id}`);
-            const elementSuppr = document.createElement("i");
-            elementSuppr.classList.add("fa-solid", "fa-trash-can");
-            figureElement.id = works[i].id;
-            p.appendChild(elementSuppr);
-            figureElement.appendChild(imgElement);
-            figureElement.appendChild(p);
-            gallery.appendChild(figureElement);
 
-        }
+async function genererWorksModal(img, title, id) {
+    try {
+
+        const gallery = document.querySelector("div.galleryModal");
+        const figureElement = document.createElement("figure");
+        figureElement.classList.add("workModal");
+        const imgElement = document.createElement("img");
+        imgElement.src = img;
+        imgElement.alt = title;
+        const p = document.createElement("p");
+        p.classList.add(`${id}`);
+        const elementSuppr = document.createElement("i");
+        elementSuppr.classList.add("fa-solid", "fa-trash-can");
+        figureElement.id = id;
+        p.appendChild(elementSuppr);
+        figureElement.appendChild(imgElement);
+        figureElement.appendChild(p);
+        gallery.appendChild(figureElement);
+
         const btnTrash = document.querySelectorAll("p");
-        for (let i = 0; i < btnTrash.length; i++) {
-            btnTrash[i].addEventListener("click", () => {
-                const idWorks = btnTrash[i].className;
-                const token = window.localStorage.getItem("token");
-                deleteWorks(idWorks, token);
-            });
-        }
-    })
+
+        btnTrash.forEach((btn) => btn.addEventListener("click", () => {
+            const idWorks = id;
+            const token = window.localStorage.getItem("token");
+            deleteWorks(idWorks, token);
+        }));
+
+    } catch (err) {
+        alert("Le serveur ne fonctionne pas !")
+    }
 }
-genererWorksModal();
+
+const response = await fetch('http://localhost:5678/api/works');
+const worksModal = await response.json();
+for (let i = 0; i < worksModal.length; i++) {
+
+    const img = worksModal[i].imageUrl;
+    const title = worksModal[i].title;
+    const id = worksModal[i].id;
+
+    genererWorksModal(img, title, id);
+}
 
 // _________________________________________SUPPRIMER_WORKS_MODAL_______________________________________
 
@@ -151,8 +162,10 @@ function deleteWorks(idWorks, token) {
             Authorization: `Bearer ${token}`
         },
     });
+
     const figureDelete = document.getElementById(`${idWorks}`);
-    figureDelete.style.display = "none";
+    figureDelete.remove()
+
     alert(`Le travail d'id ${idWorks} a bien été supprimé !`);
 }
 
@@ -217,7 +230,7 @@ async function addWorks() {
             data.append("title", title);
             data.append("category", category);
 
-            const addWorks = await fetch("http://localhost:5678/api/works/", {
+            const response = await fetch("http://localhost:5678/api/works/", {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
@@ -225,31 +238,43 @@ async function addWorks() {
                 },
                 body: data,
             });
-            if (addWorks.status === 201) {
+
+
+            if (response.status === 201) {
+
+                const fetchAddWorks = await response.json();
+                const img = fetchAddWorks.imageUrl;
+                const title = fetchAddWorks.title;
+                const id = fetchAddWorks.id;
+
                 const gallery = document.querySelector("div.gallery");
                 const figureElement = document.createElement("figure");
                 figureElement.classList.add("work");
                 const imgElement = document.createElement("img");
                 const figCaptionElement = document.createElement("figCaption");
                 imgElement.src = `./assets/images/${image[0].name}`;
-                imgElement.alt = title;
-                figCaptionElement.innerText = title;
+                imgElement.alt = `${title}`;
+                figCaptionElement.innerText = `${title}`;
                 figureElement.appendChild(imgElement);
                 figureElement.appendChild(figCaptionElement);
                 gallery.appendChild(figureElement);
 
+                genererWorksModal(img, title, id);
                 alert(`${title} a bien été ajouté avec succès !`)
             }
-            else if (addWorks.status === 401) {
+            else if (response.status === 401) {
                 alert("Vous n'ètes pas connecté !");
                 window.location.href = "login.html";
             }
 
         } catch (err) {
-            alert("Le serveur ne répond pas !");
+            console.log(err);
         }
     }
 
 }
 
-btnValider.addEventListener("click", addWorks);
+btnValider.addEventListener("click", () => {
+    addWorks();
+
+});
