@@ -1,3 +1,16 @@
+const fetchCategory = fetch("http://localhost:5678/api/categories").then(works => works.json());
+fetchCategory.then((category) => {
+    for (let i = 0; i < category.length; i++) {
+        const divFilter = document.querySelector("div.filter");
+        const buttonElement = document.createElement("button");
+        buttonElement.classList.add("btnFilter");
+        buttonElement.type = "submit";
+        buttonElement.id = `btnFilter${category[i].id}`;
+        buttonElement.innerHTML = `${category[i].name}`
+        divFilter.appendChild(buttonElement);
+    }
+})
+
 // _________________________________________APPEL_API_________________________________________
 const fetchWorks = fetch("http://localhost:5678/api/works").then(works => works.json());
 fetchWorks.then((works) => {
