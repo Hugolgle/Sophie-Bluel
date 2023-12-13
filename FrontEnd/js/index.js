@@ -217,7 +217,7 @@ function minia() {
     if (files.length > 0) {
         const fileName = files[0].name;
         const image = document.createElement("img")
-        image.src = "./assets/images/" + fileName;
+        image.src = "../Backend/images/" + fileName;
         const divFormImg = document.querySelector("div.formImg");
         divFormImg.appendChild(image)
         iconeImg.style.display = "none";
@@ -267,7 +267,7 @@ async function addWorks() {
                 figureElement.classList.add("work", `work${fetchAddWorks.id}`);
                 const imgElement = document.createElement("img");
                 const figCaptionElement = document.createElement("figCaption");
-                imgElement.src = `./assets/images/${image[0].name}`;
+                imgElement.src = "../Backend/images/" + image[0].name;
                 imgElement.alt = `${title}`;
                 figCaptionElement.innerText = `${title}`;
                 figureElement.appendChild(imgElement);
