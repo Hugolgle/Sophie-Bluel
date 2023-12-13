@@ -120,6 +120,12 @@ function toggleModal() {
     modalContainer.classList.toggle("active");
 }
 
+const btnQuitterModal = document.querySelector("button.close-modal");
+
+btnQuitterModal.addEventListener("click", () => {
+    resetForm()
+})
+
 // _______________________________________AFFICHAGE_WORKS_MODAL_______________________________________
 
 
@@ -143,13 +149,14 @@ async function genererWorksModal(img, title, id) {
         gallery.appendChild(figureElement);
 
         const btnTrash = document.querySelectorAll("p");
-
-        btnTrash.forEach((btn) => btn.addEventListener("click", () => {
-            const idWorks = id;
-            const token = window.localStorage.getItem("token");
-            deleteWorks(idWorks, token);
-        }));
-
+        for (let i = 0; i < btnTrash.length; i++) {
+            btnTrash[i].addEventListener("click", () => {
+                const idWorks = btnTrash[i].className;
+                const token = window.localStorage.getItem("token");
+                deleteWorks(idWorks, token);
+                alert(`Le travail d'id ${idWorks} a bien été supprimé !`);
+            });
+        }
     } catch (err) {
         alert("Le serveur ne fonctionne pas !")
     }
@@ -157,14 +164,15 @@ async function genererWorksModal(img, title, id) {
 
 const response = await fetch('http://localhost:5678/api/works');
 const worksModal = await response.json();
-for (let i = 0; i < worksModal.length; i++) {
+worksModal.forEach((work) => {
 
-    const img = worksModal[i].imageUrl;
-    const title = worksModal[i].title;
-    const id = worksModal[i].id;
+    const img = work.imageUrl;
+    const title = work.title;
+    const id = work.id;
 
     genererWorksModal(img, title, id);
-}
+
+})
 
 // _________________________________________SUPPRIMER_WORKS_MODAL_______________________________________
 
@@ -176,7 +184,7 @@ function deleteWorks(idWorks, token) {
         },
     });
 
-    alert(`Le travail d'id ${idWorks} a bien été supprimé !`);
+
 
     const figureDeleteModal = document.getElementById(`${idWorks}`);
     const figureDelete = document.querySelector(`.work${idWorks}`);
@@ -276,13 +284,7 @@ async function addWorks() {
 
                 genererWorksModal(img, title, id);
                 alert(`${title} a bien été ajouté avec succès !`)
-                document.getElementById("idFormModal").reset();
-                iconeImg.style.display = "flex";
-                pImage.style.display = "flex";
-                labelAjoutImg.style.display = "flex";
-
-                const imgMinia = document.querySelector("div.formImg img");
-                imgMinia.remove()
+                resetForm()
 
             }
             else if (response.status === 401) {
@@ -301,6 +303,15 @@ btnValider.addEventListener("click", () => {
     addWorks();
 
 });
+
+function resetForm() {
+    document.getElementById("idFormModal").reset();
+    iconeImg.style.display = "flex";
+    pImage.style.display = "flex";
+    labelAjoutImg.style.display = "flex";
+    const imgMinia = document.querySelector("div.formImg img");
+    imgMinia.remove()
+}
 
 // _______________________________________FONCTION_ONCHANGE______________________________________
 

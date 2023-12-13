@@ -268,7 +268,7 @@ div.entete h2 {
 button.modal-btn {
 	border: none;
 	position: absolute;
-	right: 550px;
+	margin-left: 300px;
 	display: none;
 	background: none;
 	cursor: pointer;
