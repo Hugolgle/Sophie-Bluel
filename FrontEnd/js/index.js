@@ -21,7 +21,7 @@ fetchWorks.then((works) => {
         for (let i = 0; i < works.length; i++) {
             const gallery = document.querySelector("div.gallery");
             const figureElement = document.createElement("figure");
-            figureElement.classList.add("work");
+            figureElement.classList.add("work", `work${works[i].id}`);
             const imgElement = document.createElement("img");
             const figCaptionElement = document.createElement("figCaption");
             imgElement.src = works[i].imageUrl;
@@ -176,10 +176,12 @@ function deleteWorks(idWorks, token) {
         },
     });
 
-    const figureDelete = document.getElementById(`${idWorks}`);
-    figureDelete.remove()
-
     alert(`Le travail d'id ${idWorks} a bien été supprimé !`);
+
+    const figureDeleteModal = document.getElementById(`${idWorks}`);
+    const figureDelete = document.querySelector(`.work${idWorks}`);
+    figureDeleteModal.remove()
+    figureDelete.remove()
 }
 
 // _________________________________________AJOUTER_WORKS_MODAL_______________________________________
@@ -262,7 +264,7 @@ async function addWorks() {
 
                 const gallery = document.querySelector("div.gallery");
                 const figureElement = document.createElement("figure");
-                figureElement.classList.add("work");
+                figureElement.classList.add("work", `work${fetchAddWorks.id}`);
                 const imgElement = document.createElement("img");
                 const figCaptionElement = document.createElement("figCaption");
                 imgElement.src = `./assets/images/${image[0].name}`;
@@ -299,3 +301,24 @@ btnValider.addEventListener("click", () => {
     addWorks();
 
 });
+
+// _______________________________________FONCTION_ONCHANGE______________________________________
+
+function verif() {
+    const image = document.getElementById("image").files;
+    const title = document.getElementById("title").value;
+    const category = document.getElementById("category").value;
+    const btnValider = document.querySelector("button.btnValider");
+
+    if (image.length === 1 && title && category != 0) {
+        btnValider.style.background = "#1D6154";
+    } else {
+        btnValider.style.background = "#A7A7A7";
+    }
+};
+
+const form = document.getElementById("idFormModal")
+
+form.addEventListener("change", () => {
+    verif();
+})
