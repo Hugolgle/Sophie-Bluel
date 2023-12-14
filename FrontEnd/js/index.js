@@ -131,7 +131,6 @@ btnQuitterModal.addEventListener("click", () => {
 
 async function genererWorksModal(img, title, id) {
     try {
-
         const gallery = document.querySelector("div.galleryModal");
         const figureElement = document.createElement("figure");
         figureElement.classList.add("workModal");
@@ -144,8 +143,8 @@ async function genererWorksModal(img, title, id) {
         elementSuppr.classList.add("fa-solid", "fa-trash-can");
         figureElement.id = id;
         p.appendChild(elementSuppr);
-        figureElement.appendChild(imgElement);
         figureElement.appendChild(p);
+        figureElement.appendChild(imgElement);
         gallery.appendChild(figureElement);
 
         const btnTrash = document.querySelectorAll("p");
@@ -165,13 +164,10 @@ async function genererWorksModal(img, title, id) {
 const response = await fetch('http://localhost:5678/api/works');
 const worksModal = await response.json();
 worksModal.forEach((work) => {
-
     const img = work.imageUrl;
     const title = work.title;
     const id = work.id;
-
     genererWorksModal(img, title, id);
-
 })
 
 // _________________________________________SUPPRIMER_WORKS_MODAL_______________________________________
@@ -183,8 +179,6 @@ function deleteWorks(idWorks, token) {
             Authorization: `Bearer ${token}`
         },
     });
-
-
 
     const figureDeleteModal = document.getElementById(`${idWorks}`);
     const figureDelete = document.querySelector(`.work${idWorks}`);
@@ -220,22 +214,22 @@ const pImage = document.querySelector("div.formImg p");
 const btnAjoutImg = document.querySelector("div.formImg input#image");
 const labelAjoutImg = document.querySelector("div.formImg label");
 
-function minia() {
-    const files = btnAjoutImg.files;
-    if (files.length > 0) {
-        const fileName = files[0].name;
-        const image = document.createElement("img")
-        image.src = "../Backend/images/" + fileName;
+btnAjoutImg.addEventListener("change", (event) => {
+    const imageFiles = event.target.files;
+    const imageFilesLength = imageFiles.length;
+    if (imageFilesLength > 0) {
+        const imageSrc = URL.createObjectURL(imageFiles[0]);
+        const imagePreviewElement = document.createElement("img")
+        imagePreviewElement.src = imageSrc;
+        imagePreviewElement.style.display = "block";
         const divFormImg = document.querySelector("div.formImg");
-        divFormImg.appendChild(image)
+        divFormImg.appendChild(imagePreviewElement)
         iconeImg.style.display = "none";
         pImage.style.display = "none";
         btnAjoutImg.style.display = "none";
-        labelAjoutImg.style.display = "none"
+        labelAjoutImg.style.display = "none";
     }
-}
-
-btnAjoutImg.addEventListener("change", minia)
+})
 
 // _______________________________________FONCTION_AJOUTER_WORKS______________________________________
 
@@ -262,20 +256,18 @@ async function addWorks() {
                 body: data,
             });
 
-
             if (response.status === 201) {
 
                 const fetchAddWorks = await response.json();
                 const img = fetchAddWorks.imageUrl;
                 const title = fetchAddWorks.title;
                 const id = fetchAddWorks.id;
-
                 const gallery = document.querySelector("div.gallery");
                 const figureElement = document.createElement("figure");
                 figureElement.classList.add("work", `work${fetchAddWorks.id}`);
                 const imgElement = document.createElement("img");
                 const figCaptionElement = document.createElement("figCaption");
-                imgElement.src = "../Backend/images/" + image[0].name;
+                imgElement.src = img;
                 imgElement.alt = `${title}`;
                 figCaptionElement.innerText = `${title}`;
                 figureElement.appendChild(imgElement);
@@ -301,7 +293,6 @@ async function addWorks() {
 
 btnValider.addEventListener("click", () => {
     addWorks();
-
 });
 
 function resetForm() {
@@ -313,7 +304,7 @@ function resetForm() {
     imgMinia.remove()
 }
 
-// _______________________________________FONCTION_ONCHANGE______________________________________
+// _______________________________________FONCTION_VERIF_CHAMPS_FORM______________________________________
 
 function verif() {
     const image = document.getElementById("image").files;

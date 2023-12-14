@@ -388,11 +388,11 @@ div.galleryModal img {
 }
 
 div.galleryModal p {
-	position: fixed;
-	margin: -95px 53px;
+	position: absolute;
+	margin: 5px 57px;
 	cursor: pointer;
 	transition: .2s;
-	font-size: 18px;
+	font-size: 15px;
 }
 
 div.galleryModal p i:hover {
