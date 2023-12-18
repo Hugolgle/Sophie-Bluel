@@ -17,7 +17,7 @@ async function login() {
         const token = reponse.token;
         if (token) {
             window.localStorage.setItem("token", token);
-            window.location.href = "../FrontEnd/index.html";
+            window.location.href = "index.html";
         } else if (email === "" || password === "") {
             alert("Renseigner votre e-mail et votre mdp !");
         } else {
